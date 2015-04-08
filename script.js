@@ -51,7 +51,6 @@ $(document).ready(function() {
 
     function handleFiles(files) {
         for (var i = 0; i < files.length; i++) {
-            console.log(files[i]);
             if (files[i].size < 500000// Only supports less than 500 KB
                 && files[i].name.indexOf('.java') > -1) {
 
@@ -82,19 +81,6 @@ $(document).ready(function() {
         $("#sortable .delete").click();
     }
 
-    var highlightCode = function(code) {
-        // Highlight code
-        var hl_text = $('[name="hl_text"]').val();
-        localStorage.setItem("highlightContains", hl_text);
-
-        hljs.highlightBlock(code);
-        $('.hljs-comment, .hljs-javadoc', code).each(function(index, el) {
-            if ($(this).text().indexOf(hl_text) > 0) {
-                $(this).removeClass();
-                $(this).addClass('hljs-hl-comment');
-            }
-        });
-    }
 
     window.do_generate = function(opened) {
         var files = window.myFiles;
@@ -106,7 +92,17 @@ $(document).ready(function() {
             var code = opened.document.createElement('code');
             code.innerHTML = file.content;
 
-            highlightCode
+            // Highlight code
+            var hl_text = $('[name="hl_text"]').val();
+            localStorage.setItem("highlightContains", hl_text);
+
+            hljs.highlightBlock(code);
+            $('.hljs-comment, .hljs-javadoc', code).each(function(index, el) {
+                if ($(this).text().indexOf(hl_text) > 0) {
+                    $(this).removeClass();
+                    $(this).addClass('hljs-hl-comment');
+                }
+            });
 
             var pre = opened.document.createElement('pre');
             pre.appendChild(code);
