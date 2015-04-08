@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+    <!-- Basic Page Needs
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>kdo.dk - Java Source Printer</title>
+    <meta name="description" content="Projects and stuff">
+    <meta name="author" content="Kristian">
+
+    <!-- Font
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans|Dosis:400,800" rel="stylesheet" type="text/css" />
+
+    <!-- JavaScript
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+    <script src="script.js"></script>
+    <script src="highlight.java.js"></script>
+
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/kristian.css">
+    
+</head>
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <div class="twelve columns">
+            <h1>Java Source Printer</h1>  
+            <div class="dropbox"> 
+                <p>
+                Drop <i>.java</i> files here!
+                </p>
+            <div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 1em;">
+        <div class="twelve columns">
+            <button class="button-primary" type="button" onclick="generate()">Print Source!</button>
+            <button class="button-primary" type="button" onclick="clearList()">Clear</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="option_box" class="twelve columns">
+            <p>Options</p>
+            <div>
+                <p>Highligh Java comments containing:</p>
+                <input type="text" name="hl_text"></input>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
