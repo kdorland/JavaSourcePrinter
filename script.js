@@ -126,6 +126,8 @@ $(document).ready(function() {
                 setTimeout(generate, 20);
             } else {
                 do_generate(opened);
+                var blob = new Blob(["<html>"+jQuery('html', opened.document).html()+"</html>"], {type: "text/plain;charset=utf-8"});
+                saveAs(blob, "java_source_code.html");
                 window.opened = undefined;
                 opened = undefined;
             }
