@@ -4,6 +4,10 @@ $(document).ready(function() {
     var fileList = [];
     window.myFiles = fileList;
     var opened = undefined;
+    var site = '<html><head><link rel="stylesheet" href="http://kdo.dk/app/javaSourcePrinter/code_style.css">'+
+    '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>'+
+    '<script src="http://cdn.jsdelivr.net/highlight.js/8.5/highlight.min.js">'+
+    '</script></head><body><script>window.fullyLoaded = true;</script></body></html>';
 
     function dragenter(e) {
         e.stopPropagation();
@@ -82,14 +86,14 @@ $(document).ready(function() {
     }
 
 
-    window.do_generate = function(opened) {
+    var do_generate = function(myDoc) {
         var files = window.myFiles;
         jQuery('.dropbox ul li').each(function(index, value) {
             file = jQuery(value).data('file');
 
-            var header = opened.document.createElement('h2');
+            var header = myDoc.createElement('h2');
             header.innerText = file.name;
-            var code = opened.document.createElement('code');
+            var code = myDoc.createElement('code');
             code.innerHTML = file.content;
 
             // Highlight code
@@ -98,41 +102,54 @@ $(document).ready(function() {
 
             hljs.highlightBlock(code);
             $('.hljs-comment, .hljs-javadoc', code).each(function(index, el) {
+                console.log('Yeah, comment highlighting!')
                 if ($(this).text().indexOf(hl_text) > 0) {
                     $(this).removeClass();
                     $(this).addClass('hljs-hl-comment');
                 }
             });
 
-            var pre = opened.document.createElement('pre');
+            var pre = myDoc.createElement('pre');
             pre.appendChild(code);
-            jQuery('body', opened.document).append(header);
-            jQuery('body', opened.document).append(pre);
+            jQuery('body', myDoc).append(header);
+            jQuery('body', myDoc).append(pre);
         });
     }
 
-    window.generate = function() {
-        if (opened === undefined) {
-            opened = window.open();
-            var site = '<html><head><link rel="stylesheet" href="http://kdo.dk/app/javaSourcePrinter/code_style.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><script src="http://cdn.jsdelivr.net/highlight.js/8.5/highlight.min.js"></script></head><body><script>window.fullyLoaded = true;</script></body></html>';
-            opened.document.write(site);
-            window.opened = opened;
-        }
-
+    var generate = function(opened) {
         jQuery(opened.document).ready(function() {
             // Nasty hack because ready() simply doesn't work on popups...
             if (opened.window.fullyLoaded !== true) {
                 console.log('Not loaded');
                 setTimeout(generate, 20);
             } else {
-                do_generate(opened);
-                var blob = new Blob(["<html>"+jQuery('html', opened.document).html()+"</html>"], {type: "text/plain;charset=utf-8"});
-                saveAs(blob, "java_source_code.html");
+                do_generate(opened.document);
+                opened.print();
                 window.opened = undefined;
                 opened = undefined;
             }
-
         });
+    }
+
+    window.generatePrint = function() {
+        if (opened === undefined) {
+            opened = window.open();
+            opened.document.write(site);
+            window.opened = opened;
+        }
+        generate(opened);
+    }
+
+    window.generateDownload = function() {
+        // Experimental HTML5 API usage below
+        var doc = document.implementation.createHTMLDocument("New Document");
+        jQuery(doc.document).ready(function() {
+            doc.write(site);
+            do_generate(doc);
+        });
+        window.myDoc = doc;
+        var blob = new Blob(["<html>"+jQuery('html', doc).html()+"</html>"], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, "java_source_code.html");       
     }
 
     $("#option_box").accordion({
