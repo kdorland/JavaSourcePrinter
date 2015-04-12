@@ -102,7 +102,6 @@ $(document).ready(function() {
 
             hljs.highlightBlock(code);
             $('.hljs-comment, .hljs-javadoc', code).each(function(index, el) {
-                console.log('Yeah, comment highlighting!')
                 if ($(this).text().indexOf(hl_text) > 0) {
                     $(this).removeClass();
                     $(this).addClass('hljs-hl-comment');
@@ -120,7 +119,6 @@ $(document).ready(function() {
         jQuery(opened.document).ready(function() {
             // Nasty hack because ready() simply doesn't work on popups...
             if (opened.window.fullyLoaded !== true) {
-                console.log('Not loaded');
                 setTimeout(generate, 20);
             } else {
                 do_generate(opened.document);
@@ -132,12 +130,10 @@ $(document).ready(function() {
     }
 
     window.generatePrint = function() {
-        if (opened === undefined) {
-            opened = window.open();
-            opened.document.write(site);
-            window.opened = opened;
-            generate(opened);
-        }
+        opened = window.open();
+        opened.document.write(site);
+        window.opened = opened;
+        generate(opened);
     }
 
     window.generateDownload = function() {
