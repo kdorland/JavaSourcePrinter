@@ -136,8 +136,8 @@ $(document).ready(function() {
             opened = window.open();
             opened.document.write(site);
             window.opened = opened;
+            generate(opened);
         }
-        generate(opened);
     }
 
     window.generateDownload = function() {
