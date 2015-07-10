@@ -4,7 +4,7 @@ $(document).ready(function() {
     var fileList = [];
     window.myFiles = fileList;
     var opened = undefined;
-    var site = '<html><head><link rel="stylesheet" href="code_style.css">'+
+    var site = '<html><head><link rel="stylesheet" href="https://cdn.rawgit.com/kdorland/JavaSourcePrinter/master/code_style.css">'+
     '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>'+
     '<script src="http://cdn.jsdelivr.net/highlight.js/8.5/highlight.min.js">'+
     '</script></head><body><script>window.fullyLoaded = true;</script></body></html>';
